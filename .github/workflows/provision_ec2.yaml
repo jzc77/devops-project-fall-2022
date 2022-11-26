@@ -1,6 +1,9 @@
 name: Provision t2.micro EC2
 
 on:
+    push:
+    paths:
+    - 'tf-example/**'
   workflow_dispatch:
     inputs:
       ec2-name:
@@ -8,6 +11,16 @@ on:
         required: true
         default: 'App Server'
         type: string
+
+concurrency:
+  group: ${{ github.action == 'Provision t2.micro EC2' }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./tf-example
+
 jobs:
   provision-ec2:
     runs-on: ubuntu-latest
@@ -28,13 +41,14 @@ jobs:
           terraform_wrapper: false
       - name: Terraform Apply
         id:   apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
           TF_VAR_ec2_name:  "${{ github.event.inputs.ec2-name }}"
         run: |
           cd tf-example/
           terraform init
           terraform validate
-          terraform plan 
+          terraform plan
           terraform apply -auto-approve
   slack_notification:
     name: 'Slack Notification'
@@ -42,10 +56,10 @@ jobs:
     if: always()
 
     steps:
-    - uses: actions/checkout@v3 
+    - uses: actions/checkout@v3
 
     - name: Apply Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+      uses: rtCamp/action-slack-notify@v3
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
@@ -53,9 +67,9 @@ jobs:
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_FOOTER: 'Terraform Github Actions Main Branch Alert'
-    
+
     - name: Plan Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+      uses: rtCamp/action-slack-notify@v3
       if: github.ref != 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
