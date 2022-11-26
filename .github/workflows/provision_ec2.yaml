@@ -4,14 +4,6 @@ on:
   push:
     paths:
     - 'tf-example/**.tf'
-  workflow_dispatch:
-    inputs:
-        ec2-name:
-        description: EC2 name
-        required: true
-        default: 'App Server'
-        type: string
-
 
 concurrency:
   group: ${{ github.action == 'Provision t2.micro EC2' }}
@@ -24,7 +16,6 @@ defaults:
 
 jobs:
   provision-ec2:
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -42,6 +33,7 @@ jobs:
         with:
           terraform_wrapper: false
       - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         id:   apply
         env:
           TF_VAR_ec2_name:  "${{ github.event.inputs.ec2-name }}"
