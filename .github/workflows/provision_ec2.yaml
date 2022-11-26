@@ -38,7 +38,6 @@ jobs:
         env:
           TF_VAR_ec2_name:  "${{ github.event.inputs.ec2-name }}"
         run: |
-          cd tf-example/
           terraform init
           terraform validate
           terraform plan
@@ -49,10 +48,10 @@ jobs:
     if: always()
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
     - name: Apply Slack Notification
-      uses: rtCamp/action-slack-notify@v3
+      uses: rtCamp/action-slack-notify@v2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
@@ -62,7 +61,7 @@ jobs:
         SLACK_FOOTER: 'Terraform Github Actions Main Branch Alert'
 
     - name: Plan Slack Notification
-      uses: rtCamp/action-slack-notify@v3
+      uses: rtCamp/action-slack-notify@v2
       if: github.ref != 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
