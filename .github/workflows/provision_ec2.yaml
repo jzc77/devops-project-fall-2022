@@ -10,7 +10,7 @@ on:
             default: 'App Server'
             type: string
     paths:
-    - 'tf-example/**'
+    - 'tf-example/**.tf'
 
 concurrency:
   group: ${{ github.action == 'Provision t2.micro EC2' }}
