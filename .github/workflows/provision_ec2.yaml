@@ -36,7 +36,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         id:   apply
         env:
-          TF_VAR_ec2_name:  "${{ github.event.inputs.ec2-name }}"
+          TF_VAR_ec2_name:  "New EC2 instance"
         run: |
           terraform init
           terraform validate
