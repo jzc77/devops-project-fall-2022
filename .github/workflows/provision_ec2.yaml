@@ -1,9 +1,9 @@
 name: Provision t2.micro EC2
 
-on:
-    push:
-	paths:
-    	- 'tf-example/**'
+on: 
+  push:
+    paths:
+    - 'tf-example/**'
 
 concurrency:
   group: ${{ github.action == 'Provision t2.micro EC2' }}
