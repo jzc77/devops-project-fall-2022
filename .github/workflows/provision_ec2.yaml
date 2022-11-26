@@ -2,12 +2,13 @@ name: Provision t2.micro EC2
 
 on: 
   push:
-    inputs:
-      ec2-name:
-        description: EC2 name
-        required: true
-        default: 'App Server'
-        type: string
+    workflow_dispatch:
+        inputs:
+            ec2-name:
+            description: EC2 name
+            required: true
+            default: 'App Server'
+            type: string
     paths:
     - 'tf-example/**'
 
