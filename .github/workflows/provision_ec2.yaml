@@ -8,8 +8,8 @@ on:
         required: true
         default: 'App Server'
         type: string
-        paths:
-        - 'tf-example/**'
+    paths:
+    - 'tf-example/**'
 
 concurrency:
   group: ${{ github.action == 'Provision t2.micro EC2' }}
