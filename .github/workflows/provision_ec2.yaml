@@ -2,14 +2,14 @@ name: Provision t2.micro EC2
 
 on: 
   push:
-    paths:
-    - 'tf-example/**'
     inputs:
       ec2-name:
         description: EC2 name
         required: true
         default: 'App Server'
         type: string
+        paths:
+        - 'tf-example/**'
 
 concurrency:
   group: ${{ github.action == 'Provision t2.micro EC2' }}
