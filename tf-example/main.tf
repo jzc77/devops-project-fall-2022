@@ -22,7 +22,7 @@ resource "aws_instance" "app_server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   key_name      = "A00902160uswest1"
-
+  security_group = "devops-project-security-group"
   tags = {
     Name = var.ec2_name
   }
