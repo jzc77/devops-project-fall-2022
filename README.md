@@ -3,6 +3,9 @@
 ## Repository Overview
 This repository was set up as part of a demonstration for a Devops course presentation.
 
+## Project Diagram
+<img alt="workflow" src="./project-diagram.png" />
+
 ## Project Details
 * Goal: Use GitHub Actions and Terraform to provision AWS EC2 instance, with Slack notification.
   * Only provisions (EC2 and Slack notification) when .tf files are pushed (e.g. doesn't when .txt file is pushed) from a specified directory
